@@ -2,17 +2,17 @@ package ee.tp.interview_assignments.smit.names;
 
 import java.util.Objects;
 
-public class JavaClassName {
+public class ClassName {
 	private static final char NAME_SEPARATOR = '.';
 
-	public static JavaClassName of(String name) {
-		return new JavaClassName(name);
+	public static ClassName of(String name) {
+		return new ClassName(name);
 	}
 
 	private final String nameString;
 	private String simpleName;
 
-	private JavaClassName(String nameString) {
+	private ClassName(String nameString) {
 		this.nameString = nameString;
 	}
 
@@ -42,9 +42,9 @@ public class JavaClassName {
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof JavaClassName))
+		if (!(obj instanceof ClassName))
 			return false;
-		JavaClassName other = (JavaClassName) obj;
+		ClassName other = (ClassName) obj;
 		return Objects.equals(this.nameString, other.nameString);
 	}
 }

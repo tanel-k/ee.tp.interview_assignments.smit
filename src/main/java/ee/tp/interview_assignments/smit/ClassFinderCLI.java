@@ -1,7 +1,6 @@
 package ee.tp.interview_assignments.smit;
 
-import ee.tp.interview_assignments.smit.matching.MatcherFactory.InvalidQueryException;
-import ee.tp.interview_assignments.smit.names.JavaClassName;
+import ee.tp.interview_assignments.smit.names.ClassName;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
 import ee.tp.interview_assignments.smit.matching.MatcherFactory;
 import ee.tp.interview_assignments.smit.utils.StringUtils;
@@ -50,13 +49,17 @@ public class ClassFinderCLI {
 	}
 
 	public static void main(String... args) {
-		// TODO: Proper input parsing.
 		if (args.length != 2) {
 			exitWithError(StatusCode.INVALID_INPUT, "expected 2 arguments, received " + args.length);
 		}
 
 		File inputFile = new File(args[0]);
 		String query = args[1];
+
+		query = StringUtils.stripDelimiters(query, '\'');
+		if (query.isEmpty()) {
+			exitWithError(StatusCode.INVALID_INPUT, "query should not be empty");
+		}
 
 		if (!inputFile.exists()) {
 			exitWithError(StatusCode.INVALID_INPUT, "file '" + inputFile.getPath() + "' does not exist");
@@ -70,14 +73,12 @@ public class ClassFinderCLI {
 					.map(String::trim)
 					.filter(s -> !s.isEmpty())
 					.distinct()
-					.map(JavaClassName::of)
+					.map(ClassName::of)
 					.filter(matcher::matches)
-					.sorted(Comparator.comparing(JavaClassName::getSimpleName))
+					.sorted(Comparator.comparing(ClassName::getSimpleName))
 					.forEach(out::println);
 		} catch (IOException ex) {
 			exitWithError(StatusCode.FILE_IO, "failed to read " + inputFile.getPath() + ".", ex);
-		} catch (InvalidQueryException ex) {
-			exitWithError(StatusCode.INVALID_INPUT, "query - " + ex.getMessage());
 		} catch (Throwable t) {
 			exitWithError(StatusCode.UNEXPECTED, "unexpected error", t);
 		}

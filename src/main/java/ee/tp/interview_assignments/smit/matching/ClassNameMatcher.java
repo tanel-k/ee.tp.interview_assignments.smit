@@ -1,9 +1,9 @@
 package ee.tp.interview_assignments.smit.matching;
 
-import ee.tp.interview_assignments.smit.names.JavaClassName;
+import ee.tp.interview_assignments.smit.names.ClassName;
 
 public interface ClassNameMatcher {
 	char WILDCARD = '*';
 
-	boolean matches(JavaClassName name);
+	boolean matches(ClassName name);
 }

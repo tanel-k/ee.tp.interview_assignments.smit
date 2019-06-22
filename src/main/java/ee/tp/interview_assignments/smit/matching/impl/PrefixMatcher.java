@@ -2,7 +2,7 @@ package ee.tp.interview_assignments.smit.matching.impl;
 
 import ee.tp.interview_assignments.smit.camel_case.CamelCaseTokenizer;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
-import ee.tp.interview_assignments.smit.names.JavaClassName;
+import ee.tp.interview_assignments.smit.names.ClassName;
 import ee.tp.interview_assignments.smit.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class PrefixMatcher implements ClassNameMatcher {
 	}
 
 	@Override
-	public boolean matches(JavaClassName name) {
+	public boolean matches(ClassName name) {
 		String simpleName = name.getSimpleName();
 		List<String> nameTokens = new CamelCaseTokenizer(simpleName).getTokenList();
 

@@ -1,7 +1,5 @@
 package ee.tp.interview_assignments.smit.camel_case;
 
-import ee.tp.interview_assignments.smit.utils.CharUtils;
-
 import java.util.Iterator;
 
 public class CamelCaseIterator implements Iterator<String> {
@@ -9,7 +7,7 @@ public class CamelCaseIterator implements Iterator<String> {
 	private final int length;
 	private final String string;
 
-	public CamelCaseIterator(String string) {
+	CamelCaseIterator(String string) {
 		this.index = 0;
 		this.string = string;
 		this.length = string.length();
@@ -26,7 +24,7 @@ public class CamelCaseIterator implements Iterator<String> {
 
 		// We assume that it doesn't matter whether the *first* char is lower- or uppercase.
 		while (++index < length) {
-			if (CharUtils.isUppercaseAsciiLetter(string.charAt(index)))
+			if (Character.isUpperCase(string.charAt(index)))
 				break;
 		}
 

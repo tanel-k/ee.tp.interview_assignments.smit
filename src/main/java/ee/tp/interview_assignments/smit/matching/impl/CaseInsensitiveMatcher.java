@@ -1,7 +1,7 @@
 package ee.tp.interview_assignments.smit.matching.impl;
 
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
-import ee.tp.interview_assignments.smit.names.JavaClassName;
+import ee.tp.interview_assignments.smit.names.ClassName;
 
 public class CaseInsensitiveMatcher implements ClassNameMatcher {
 	private final String queryStr;
@@ -11,7 +11,7 @@ public class CaseInsensitiveMatcher implements ClassNameMatcher {
 	}
 
 	@Override
-	public boolean matches(JavaClassName name) {
+	public boolean matches(ClassName name) {
 		String simpleName = name.getSimpleName().toLowerCase();
 
 		if (simpleName.length() < queryStr.length())

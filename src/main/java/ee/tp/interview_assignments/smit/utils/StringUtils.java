@@ -37,4 +37,12 @@ public class StringUtils {
 	public static boolean isEmpty(String str) {
 		return str == null || str.isEmpty();
 	}
+
+	public static boolean containsUppercaseLetters(String str) {
+		for (int i = 0; i < str.length(); i++) {
+			if (Character.isUpperCase(str.charAt(i)))
+				return true;
+		}
+		return false;
+	}
 }
