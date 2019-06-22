@@ -1,14 +1,6 @@
 package ee.tp.interview_assignments.smit.utils;
 
 public class StringUtils {
-	public static boolean containsAsciiUppercase(String str) {
-		for (int i = 0; i < str.length(); i++) {
-			if (CharUtils.isAsciiUppercase(str.charAt(i)))
-				return true;
-		}
-		return false;
-	}
-
 	public static String stripDelimiters(String str, char delimiter) {
 		if (str.isEmpty())
 			return str;

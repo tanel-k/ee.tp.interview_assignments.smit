@@ -23,6 +23,7 @@ public class ClassFinderCLI {
 
 		private int status;
 		private String description;
+
 		StatusCode(int status, String description) {
 			this.status = status;
 			this.description = description;
@@ -51,7 +52,7 @@ public class ClassFinderCLI {
 	public static void main(String... args) {
 		// TODO: Proper input parsing.
 		if (args.length != 2) {
-			exitWithError(StatusCode.INVALID_INPUT, "expected 2, received " + args.length);
+			exitWithError(StatusCode.INVALID_INPUT, "expected 2 arguments, received " + args.length);
 		}
 
 		File inputFile = new File(args[0]);
@@ -70,14 +71,13 @@ public class ClassFinderCLI {
 					.filter(s -> !s.isEmpty())
 					.distinct()
 					.map(JavaClassName::of)
-					.parallel()
 					.filter(matcher::matches)
 					.sorted(Comparator.comparing(JavaClassName::getSimpleName))
 					.forEach(out::println);
 		} catch (IOException ex) {
 			exitWithError(StatusCode.FILE_IO, "failed to read " + inputFile.getPath() + ".", ex);
 		} catch (InvalidQueryException ex) {
-			exitWithError(StatusCode.INVALID_INPUT, "invalid query: " + ex.getMessage());
+			exitWithError(StatusCode.INVALID_INPUT, "query - " + ex.getMessage());
 		} catch (Throwable t) {
 			exitWithError(StatusCode.UNEXPECTED, "unexpected error", t);
 		}

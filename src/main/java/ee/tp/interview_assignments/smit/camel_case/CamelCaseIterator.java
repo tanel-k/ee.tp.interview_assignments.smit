@@ -26,7 +26,7 @@ public class CamelCaseIterator implements Iterator<String> {
 
 		// We assume that it doesn't matter whether the *first* char is lower- or uppercase.
 		while (++index < length) {
-			if (CharUtils.isAsciiUppercase(string.charAt(index)))
+			if (CharUtils.isUppercaseAsciiLetter(string.charAt(index)))
 				break;
 		}
 
