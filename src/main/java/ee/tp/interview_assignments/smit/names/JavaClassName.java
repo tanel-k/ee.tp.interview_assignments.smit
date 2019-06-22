@@ -1,4 +1,4 @@
-package ee.tp.interview_assignments.smit.naming;
+package ee.tp.interview_assignments.smit.names;
 
 import java.util.Objects;
 

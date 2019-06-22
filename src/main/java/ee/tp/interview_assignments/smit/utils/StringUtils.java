@@ -41,4 +41,8 @@ public class StringUtils {
 
 		return true;
 	}
+
+	public static boolean isEmpty(String str) {
+		return str == null || str.isEmpty();
+	}
 }

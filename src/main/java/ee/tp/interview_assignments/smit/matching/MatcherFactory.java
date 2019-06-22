@@ -5,9 +5,15 @@ import ee.tp.interview_assignments.smit.matching.impl.PrefixMatcher;
 import ee.tp.interview_assignments.smit.utils.StringUtils;
 
 public class MatcherFactory {
+	public static class InvalidQueryException extends Exception {
+		InvalidQueryException(String message) {
+			super(message);
+		}
+	}
+
 	private static final char EXACT_MATCH_MODIFIER = ' ';
 
-	public static ClassNameMatcher parseQuery(String queryString) {
+	public static ClassNameMatcher parseQuery(String queryString) throws InvalidQueryException {
 		// TODO: VALIDATION
 
 		boolean matchLastExactly = false;
