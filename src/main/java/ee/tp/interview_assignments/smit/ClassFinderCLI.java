@@ -1,11 +1,12 @@
 package ee.tp.interview_assignments.smit;
 
+import ee.tp.interview_assignments.smit.cli.CommandLineOptionParser;
+import ee.tp.interview_assignments.smit.cli.CommandLineParseException;
 import ee.tp.interview_assignments.smit.names.ClassName;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
-import ee.tp.interview_assignments.smit.matching.MatcherFactory;
+import ee.tp.interview_assignments.smit.matching.QueryParser;
 import ee.tp.interview_assignments.smit.utils.StringUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Comparator;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static java.lang.System.out;
 import static java.lang.System.err;
+import static java.lang.System.exit;
 
 public class ClassFinderCLI {
 	private enum StatusCode {
@@ -34,40 +36,38 @@ public class ClassFinderCLI {
 	}
 
 	private static void exitWithError(StatusCode statusCode, String detailMessage, Throwable t) {
-		String errorMessage = statusCode.description
+		err.println(
+			statusCode.description
 				+ (StringUtils.isEmpty(detailMessage) ? "" : ": " + detailMessage)
-				+ ".";
-
-		err.println(errorMessage);
+				+ "."
+		);
 
 		if (t != null) {
 			err.println("\nStack trace:");
 			t.printStackTrace(err);
 		}
 
-		System.exit(statusCode.status);
+		exit(statusCode.status);
 	}
 
 	public static void main(String... args) {
-		if (args.length != 2) {
-			exitWithError(StatusCode.INVALID_INPUT, "expected 2 arguments, received " + args.length);
-		}
+		CommandLineOptionParser<ClassFinderOptions> parser = CommandLineOptionParser
+			.forBean(ClassFinderOptions.class);
 
-		File inputFile = new File(args[0]);
-		String query = args[1];
-
-		query = StringUtils.stripDelimiters(query, '\'');
-		if (query.isEmpty()) {
-			exitWithError(StatusCode.INVALID_INPUT, "query should not be empty");
-		}
-
-		if (!inputFile.exists()) {
-			exitWithError(StatusCode.INVALID_INPUT, "file '" + inputFile.getPath() + "' does not exist");
-		}
-
+		ClassFinderOptions options = null;
 		try {
-			List<String> rawLines = Files.readAllLines(inputFile.toPath());
-			ClassNameMatcher matcher = MatcherFactory.parseQuery(StringUtils.stripDelimiters(query, '\''));
+			options = parser.parse(args);
+
+			if (options.getQuery().isEmpty()) {
+				exitWithError(StatusCode.INVALID_INPUT,"query should not be empty");
+			}
+
+			if (!options.getNameListFile().exists()) {
+				exitWithError(StatusCode.INVALID_INPUT, "'" + options.getNameListFile().getPath() + "' does not exist");
+			}
+
+			List<String> rawLines = Files.readAllLines(options.getNameListFile().toPath());
+			ClassNameMatcher matcher = QueryParser.parse(options.getQuery());
 
 			rawLines.stream()
 					.map(String::trim)
@@ -78,7 +78,9 @@ public class ClassFinderCLI {
 					.sorted(Comparator.comparing(ClassName::getSimpleName))
 					.forEach(out::println);
 		} catch (IOException ex) {
-			exitWithError(StatusCode.FILE_IO, "failed to read " + inputFile.getPath() + ".", ex);
+			exitWithError(StatusCode.FILE_IO, "failed to read '" + options.getNameListFile().getPath() + "'.", ex);
+		} catch (CommandLineParseException ex) {
+			exitWithError(StatusCode.INVALID_INPUT, ex.getMessage());
 		} catch (Throwable t) {
 			exitWithError(StatusCode.UNEXPECTED, "unexpected error", t);
 		}
