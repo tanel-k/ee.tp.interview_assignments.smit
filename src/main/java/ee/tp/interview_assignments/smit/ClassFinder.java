@@ -1,6 +1,6 @@
 package ee.tp.interview_assignments.smit;
 
-import ee.tp.interview_assignments.smit.cli.CommandLineArgsParser;
+import ee.tp.interview_assignments.smit.cli.CommandLineArgArrayParser;
 import ee.tp.interview_assignments.smit.cli.InvalidOptionsException;
 import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
@@ -56,7 +56,7 @@ public class ClassFinder {
 
 	public static void main(String... args) {
 		try {
-			CommandLineArgsParser<ClassFinderOptions> parser = CommandLineArgsParser.forClass(
+			CommandLineArgArrayParser<ClassFinderOptions> parser = CommandLineArgArrayParser.forClass(
 				ClassFinderOptions.class
 			);
 			ClassFinderOptions options = parser.parse(args);

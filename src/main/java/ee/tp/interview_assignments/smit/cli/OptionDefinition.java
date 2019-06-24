@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class OptionDefinition {
+class OptionDefinition {
 	static class CommandLineOptionDefinitionBuilder {
 		private OptionDefinition option;
 

@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CommandLineArgsParser<T extends OptionsBean> {
-	public static <T extends OptionsBean> CommandLineArgsParser<T> forClass(Class<T> optionContainerClass) {
+public class CommandLineArgArrayParser<T extends OptionsBean> {
+	public static <T extends OptionsBean> CommandLineArgArrayParser<T> forClass(Class<T> optionContainerClass) {
 		Map<String, OptionDefinition> nameToOptionMap = new HashMap<>();
 		Set<String> baseOptionNames = new LinkedHashSet<>();
 		Set<String> requiredOptionNames = new LinkedHashSet<>();
@@ -51,7 +51,7 @@ public class CommandLineArgsParser<T extends OptionsBean> {
 			}
 		}
 
-		CommandLineArgsParser<T> parser = new CommandLineArgsParser<>();
+		CommandLineArgArrayParser<T> parser = new CommandLineArgArrayParser<>();
 		parser.optionContainerClass = optionContainerClass;
 		parser.baseOptionNames = Collections.unmodifiableSet(baseOptionNames);
 		parser.requiredOptionNames = Collections.unmodifiableSet(requiredOptionNames);
@@ -66,7 +66,7 @@ public class CommandLineArgsParser<T extends OptionsBean> {
 	private Collection<String> requiredOptionNames;
 	private Map<String, OptionDefinition> optionNameMap;
 
-	private CommandLineArgsParser() { }
+	private CommandLineArgArrayParser() { }
 
 	public String getHelpMessage() {
 		if (helpMessage == null) {
