@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class CamelCaseTokenizer implements Iterable<String> {
 	private static List<String> extractTokens(String str) {
 		List<String> tokens = new ArrayList<>();
-		new CamelCaseIterator(str).forEachRemaining(tokens::add);
+		new CamelCaseIterator(Objects.requireNonNull(str))
+			.forEachRemaining(tokens::add);
 		return tokens;
 	}
 

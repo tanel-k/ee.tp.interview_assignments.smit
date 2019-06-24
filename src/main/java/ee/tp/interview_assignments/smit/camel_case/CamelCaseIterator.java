@@ -1,6 +1,7 @@
 package ee.tp.interview_assignments.smit.camel_case;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class CamelCaseIterator implements Iterator<String> {
 	private int index;
@@ -9,7 +10,7 @@ public class CamelCaseIterator implements Iterator<String> {
 
 	CamelCaseIterator(String string) {
 		this.index = 0;
-		this.string = string;
+		this.string = Objects.requireNonNull(string);
 		this.length = string.length();
 	}
 

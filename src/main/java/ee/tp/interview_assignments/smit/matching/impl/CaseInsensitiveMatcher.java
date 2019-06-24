@@ -3,11 +3,13 @@ package ee.tp.interview_assignments.smit.matching.impl;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
 import ee.tp.interview_assignments.smit.names.ClassName;
 
+import java.util.Objects;
+
 public class CaseInsensitiveMatcher implements ClassNameMatcher {
 	private final String queryStr;
 
 	public CaseInsensitiveMatcher(String queryStr) {
-		this.queryStr = queryStr;
+		this.queryStr = Objects.requireNonNull(queryStr);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import ee.tp.interview_assignments.smit.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PrefixMatcher implements ClassNameMatcher {
@@ -24,10 +25,11 @@ public class PrefixMatcher implements ClassNameMatcher {
 	}
 
 	public PrefixMatcher(String query, boolean matchLastTokenExactly) {
-		List<String> queryTokens = new CamelCaseTokenizer(query).getTokenList();
+		List<String> queryTokens = new CamelCaseTokenizer(Objects.requireNonNull(query))
+			.getTokenList();
 		this.queryTokens = queryTokens.stream()
-				.map(QueryToken::new)
-				.collect(Collectors.toCollection(() -> new ArrayList<>(queryTokens.size())));
+			.map(QueryToken::new)
+			.collect(Collectors.toCollection(() -> new ArrayList<>(queryTokens.size())));
 		this.matchLastTokenExactly = matchLastTokenExactly;
 	}
 

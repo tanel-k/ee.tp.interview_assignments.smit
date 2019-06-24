@@ -23,6 +23,7 @@ public class ClassName {
 				? nameString.substring(lastSepIdx + 1)
 				: nameString;
 		}
+
 		return simpleName;
 	}
 
