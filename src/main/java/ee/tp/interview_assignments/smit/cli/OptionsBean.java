@@ -1,6 +1,6 @@
-package ee.tp.interview_assignments.smit.cli.options;
+package ee.tp.interview_assignments.smit.cli;
 
-public abstract class CommandLineOptionsBean {
+public abstract class OptionsBean {
 	private boolean helpRequest;
 
 	public boolean isHelpRequest() {

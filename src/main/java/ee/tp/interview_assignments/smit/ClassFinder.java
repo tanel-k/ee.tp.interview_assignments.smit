@@ -2,7 +2,7 @@ package ee.tp.interview_assignments.smit;
 
 import ee.tp.interview_assignments.smit.cli.CommandLineArgsParser;
 import ee.tp.interview_assignments.smit.cli.InvalidOptionsException;
-import ee.tp.interview_assignments.smit.cli.options.validation.InvalidOptionException;
+import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
 import ee.tp.interview_assignments.smit.matching.QueryParser;
 import ee.tp.interview_assignments.smit.names.ClassName;
@@ -17,7 +17,7 @@ import static java.lang.System.err;
 import static java.lang.System.exit;
 import static java.lang.System.out;
 
-public class ClassFinderCLI {
+public class ClassFinder {
 	private enum StatusCode {
 		INVALID_INPUT(1, "Invalid input."),
 		FILE_IO(2, "File I/O error."),
@@ -56,10 +56,10 @@ public class ClassFinderCLI {
 
 	public static void main(String... args) {
 		try {
-			CommandLineArgsParser<ClassFinderCLIOptions> parser = CommandLineArgsParser.forClass(
-				ClassFinderCLIOptions.class
+			CommandLineArgsParser<ClassFinderOptions> parser = CommandLineArgsParser.forClass(
+				ClassFinderOptions.class
 			);
-			ClassFinderCLIOptions options = parser.parse(args);
+			ClassFinderOptions options = parser.parse(args);
 
 			if (options.isHelpRequest() || options.doPrintHelp())
 				out.println(parser.getHelpMessage());

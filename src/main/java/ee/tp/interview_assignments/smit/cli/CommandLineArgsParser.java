@@ -1,11 +1,9 @@
 package ee.tp.interview_assignments.smit.cli;
 
-import ee.tp.interview_assignments.smit.cli.CommandLineOptionDefinition.CommandLineOptionDefinitionBuilder;
-import ee.tp.interview_assignments.smit.cli.options.CommandLineOptionsBean;
-import ee.tp.interview_assignments.smit.cli.options.parsing.CommandLineOptionParseException;
-import ee.tp.interview_assignments.smit.cli.options.parsing.CommandLineOptionParser;
-import ee.tp.interview_assignments.smit.cli.options.CommandLineOptionField;
-import ee.tp.interview_assignments.smit.cli.options.validation.InvalidOptionException;
+import ee.tp.interview_assignments.smit.cli.OptionDefinition.CommandLineOptionDefinitionBuilder;
+import ee.tp.interview_assignments.smit.cli.parsing.OptionParseException;
+import ee.tp.interview_assignments.smit.cli.parsing.CommandLineOptionParser;
+import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -19,18 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
-	public static <T extends CommandLineOptionsBean> CommandLineArgsParser<T> forClass(Class<T> optionContainerClass) {
-		Map<String, CommandLineOptionDefinition> nameToOptionMap = new HashMap<>();
+public class CommandLineArgsParser<T extends OptionsBean> {
+	public static <T extends OptionsBean> CommandLineArgsParser<T> forClass(Class<T> optionContainerClass) {
+		Map<String, OptionDefinition> nameToOptionMap = new HashMap<>();
 		Set<String> baseOptionNames = new LinkedHashSet<>();
 		Set<String> requiredOptionNames = new LinkedHashSet<>();
 
 		for (Field field : optionContainerClass.getDeclaredFields()) {
-			if (field.isAnnotationPresent(CommandLineOptionField.class)) {
+			if (field.isAnnotationPresent(Option.class)) {
 				boolean isFlag = Boolean.class.isAssignableFrom(field.getType())
 						|| boolean.class.isAssignableFrom(field.getType());
-				CommandLineOptionField optionSpec = field.getAnnotation(CommandLineOptionField.class);
-				CommandLineOptionDefinition option = new CommandLineOptionDefinitionBuilder()
+				Option optionSpec = field.getAnnotation(Option.class);
+				OptionDefinition option = new CommandLineOptionDefinitionBuilder()
 						.setName(optionSpec.name())
 						.setFlag(isFlag)
 						.setHelpOption(isFlag && optionSpec.helpOption())
@@ -66,7 +64,7 @@ public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
 	private Class<T> optionContainerClass;
 	private Collection<String> baseOptionNames;
 	private Collection<String> requiredOptionNames;
-	private Map<String, CommandLineOptionDefinition> optionNameMap;
+	private Map<String, OptionDefinition> optionNameMap;
 
 	private CommandLineArgsParser() { }
 
@@ -81,7 +79,7 @@ public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
 			Iterator<String> baseOptionNameIter = baseOptionNames.iterator();
 			// FIXME: extract table printing logic
 			while (baseOptionNameIter.hasNext()) {
-				CommandLineOptionDefinition option = optionNameMap.get(baseOptionNameIter.next());
+				OptionDefinition option = optionNameMap.get(baseOptionNameIter.next());
 				if (!option.isRequired())
 					messageBuf.append('(');
 
@@ -155,7 +153,7 @@ public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
 			);
 		}
 
-		CommandLineOptionDefinition lastOption = null;
+		OptionDefinition lastOption = null;
 		for (String arg : args) {
 			if (lastOption != null) {
 				CommandLineOptionParser parser;
@@ -171,7 +169,7 @@ public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
 				Object parseResult;
 				try {
 					parseResult = parser.parse(arg);
-				} catch (CommandLineOptionParseException ex) {
+				} catch (OptionParseException ex) {
 					throw new InvalidOptionsException(ex.getMessage(), ex);
 				}
 
@@ -188,7 +186,7 @@ public class CommandLineArgsParser<T extends CommandLineOptionsBean> {
 				lastOption = null;
 			} else {
 				if (this.optionNameMap.containsKey(arg)) {
-					CommandLineOptionDefinition option = this.optionNameMap.get(arg);
+					OptionDefinition option = this.optionNameMap.get(arg);
 					if (option.isFlag()) {
 						containsHelpOption = containsHelpOption || option.isHelpOption();
 

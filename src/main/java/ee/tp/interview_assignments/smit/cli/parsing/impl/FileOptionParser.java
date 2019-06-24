@@ -1,4 +1,6 @@
-package ee.tp.interview_assignments.smit.cli.options.parsing;
+package ee.tp.interview_assignments.smit.cli.parsing.impl;
+
+import ee.tp.interview_assignments.smit.cli.parsing.CommandLineOptionParser;
 
 import java.io.File;
 

@@ -1,6 +1,6 @@
 package ee.tp.interview_assignments.smit.cli;
 
-import ee.tp.interview_assignments.smit.cli.options.parsing.CommandLineOptionParser;
+import ee.tp.interview_assignments.smit.cli.parsing.CommandLineOptionParser;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -8,12 +8,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CommandLineOptionDefinition {
+public class OptionDefinition {
 	static class CommandLineOptionDefinitionBuilder {
-		private CommandLineOptionDefinition option;
+		private OptionDefinition option;
 
 		CommandLineOptionDefinitionBuilder() {
-			this.option = new CommandLineOptionDefinition();
+			this.option = new OptionDefinition();
 		}
 
 		public CommandLineOptionDefinitionBuilder setName(String name) {
@@ -56,7 +56,7 @@ public class CommandLineOptionDefinition {
 			return this;
 		}
 
-		public CommandLineOptionDefinition build() {
+		public OptionDefinition build() {
 			return this.option;
 		}
 	}
@@ -72,7 +72,7 @@ public class CommandLineOptionDefinition {
 	private Set<String> aliases = new LinkedHashSet<>();
 	private Class<? extends CommandLineOptionParser> parserClass;
 
-	private CommandLineOptionDefinition() { }
+	private OptionDefinition() { }
 
 	public boolean isFlag() {
 		return flag;
