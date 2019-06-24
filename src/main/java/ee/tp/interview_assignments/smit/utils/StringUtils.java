@@ -1,12 +1,12 @@
 package ee.tp.interview_assignments.smit.utils;
 
 public class StringUtils {
-	public static boolean startsWith(String str, String subStr, char wildcard) {
-		if (str.length() < subStr.length())
+	public static boolean startsWith(String str, String prefix, char wildcard) {
+		if (str.length() < prefix.length())
 			return false;
 
-		for (int i = 0; i < subStr.length(); i++) {
-			if (subStr.charAt(i) != str.charAt(i) && subStr.charAt(i) != wildcard)
+		for (int i = 0; i < prefix.length(); i++) {
+			if (prefix.charAt(i) != str.charAt(i) && prefix.charAt(i) != wildcard)
 				return false;
 		}
 
@@ -44,9 +44,12 @@ public class StringUtils {
 		if (isEmpty(str))
 			return str;
 
-		if (str.length() == 1)
-			return str.toUpperCase();
+		return str.length() == 1
+			? str.toUpperCase()
+			: (str.substring(0, 1).toUpperCase() + str.substring(1));
+	}
 
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	public static String padRight(String str, int width) {
+		return String.format("%-" + width + "s", str);
 	}
 }

@@ -1,6 +1,6 @@
 package ee.tp.interview_assignments.smit.cli;
 
-import ee.tp.interview_assignments.smit.cli.OptionDefinition.CommandLineOptionDefinitionBuilder;
+import ee.tp.interview_assignments.smit.cli.OptionDefinition.OptionDefinitionBuilder;
 import ee.tp.interview_assignments.smit.cli.parsing.OptionParseException;
 import ee.tp.interview_assignments.smit.cli.parsing.OptionParser;
 import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Utility class for converting input information encoded as a sequence of strings into a an instance of <code>T</code>.
+ * @param <T> extension of {@link OptionsBean} whose fields specify an input contract via {@link Option}.
+ */
 public class ArgumentArrayParser<T extends OptionsBean> {
 	public static <T extends OptionsBean> ArgumentArrayParser<T> forClass(Class<T> optionsBeanClass) {
 		Map<String, OptionDefinition> baseOptionMap = new LinkedHashMap<>();
@@ -32,7 +36,7 @@ public class ArgumentArrayParser<T extends OptionsBean> {
 				boolean isFlag = Boolean.class.isAssignableFrom(field.getType())
 						|| boolean.class.isAssignableFrom(field.getType());
 				Option optionSpec = field.getAnnotation(Option.class);
-				OptionDefinition option = new CommandLineOptionDefinitionBuilder()
+				OptionDefinition option = new OptionDefinitionBuilder()
 						.setName(optionSpec.name())
 						.setFlag(isFlag)
 						.setHelpOption(isFlag && optionSpec.helpOption())
@@ -73,6 +77,11 @@ public class ArgumentArrayParser<T extends OptionsBean> {
 
 	private ArgumentArrayParser() { }
 
+	/**
+	 * @param args List of argument strings.
+	 * @return instance of <code>T</code> whose fields have been instantiated according to information in the <code>args</code> parameter.
+	 * @throws ArgumentArrayParseException if arguments encoded in <code>args</code> do not conform to rules specified by <code>T</code>
+	 */
 	public T parse(String... args) throws ArgumentArrayParseException {
 		T optionsBean;
 		try {
@@ -133,7 +142,7 @@ public class ArgumentArrayParser<T extends OptionsBean> {
 					option.getField().set(optionsBean, optionValue);
 				} catch (OptionParseException ex) {
 					throw new ArgumentArrayParseException(
-						"Invalid argument for '" + option.getName() + "': " + ex.getMessage(), ex
+							"Invalid argument for '" + option.getName() + "': " + ex.getMessage(), ex
 					);
 				} catch (Throwable t) {
 					throw new RuntimeException("Failed to parse and set '" + option.getName() + "'.", t);
@@ -144,8 +153,8 @@ public class ArgumentArrayParser<T extends OptionsBean> {
 					validator.validate(optionValue);
 				} catch (InvalidOptionException ex) {
 					throw new ArgumentArrayParseException(
-						"Invalid argument for '" + option.getName() + "': " + ex.getMessage(),
-						ex
+							"Invalid argument for '" + option.getName() + "': " + ex.getMessage(),
+							ex
 					);
 				} catch (Throwable t) {
 					throw new RuntimeException("Failed to validate option '" + option.getName() + "'.", t);
@@ -168,6 +177,9 @@ public class ArgumentArrayParser<T extends OptionsBean> {
 		return optionsBean;
 	}
 
+	/**
+	 * @return Usage instructions derived from the input option specification class.
+	 */
 	public String getHelpMessage() {
 		if (helpMessage == null) {
 			StringBuilder messageBuf = new StringBuilder("Usage: ");

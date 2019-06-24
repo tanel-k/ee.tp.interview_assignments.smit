@@ -5,6 +5,11 @@ import ee.tp.interview_assignments.smit.names.ClassName;
 
 import java.util.Objects;
 
+/**
+ * {@link ClassNameMatcher} implementation which will match a class name based on whether it contains a sub-sequence
+ * of characters specified in the query string (case-insensitive).
+ * @see ee.tp.interview_assignments.smit.matching.QueryParser
+ */
 public class CaseInsensitiveMatcher implements ClassNameMatcher {
 	private final String queryStr;
 

@@ -10,24 +10,24 @@ import java.io.File;
 
 public class ClassFinderOptions extends OptionsBean {
 	@Option(
-		name = "--help",
-		aliases = "-h",
+		name = "-h",
+		aliases = "--help",
 		description = "Prints usage instructions.",
 		helpOption = true
 	)
 	private boolean printHelp;
 
 	@Option(
-		name = "--query",
-		aliases = "-q",
+		name = "-q",
+		aliases = "--query",
 		description = "Class name query.",
 		validator = NonEmptyStringValidator.class
 	)
 	private String query;
 
 	@Option(
-		name = "--file",
-		aliases = "-f",
+		name = "-f",
+		aliases = "--file",
 		description = "Path to file which contains class names.",
 		parser = FileOptionParser.class,
 		validator = FileValidator.class

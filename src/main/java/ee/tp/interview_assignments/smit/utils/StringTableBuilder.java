@@ -9,7 +9,7 @@ public class StringTableBuilder {
 	private List<ArrayList<String>> rows = new LinkedList<>();
 	private ArrayList<Integer> cellLengths = new ArrayList<>();
 
-	private ArrayList<String> makeRow(String... cells) {
+	private ArrayList<String> constructRow(String... cells) {
 		ArrayList<String> row = new ArrayList<>(cells.length);
 		for (int i = 0; i < cells.length; i++) {
 			String cell = StringUtils.defaultString(cells[i]);
@@ -25,12 +25,12 @@ public class StringTableBuilder {
 
 	public StringTableBuilder headers(String... headers) {
 		if (this.headers == null)
-			this.headers = makeRow(headers);
+			this.headers = constructRow(headers);
 		return this;
 	}
 
 	public StringTableBuilder row(String... cells) {
-		rows.add(makeRow(cells));
+		rows.add(constructRow(cells));
 		return this;
 	}
 
@@ -39,15 +39,17 @@ public class StringTableBuilder {
 	}
 
 	public String build() {
-		StringBuilder buf = new StringBuilder();
+		StringBuilder tableBuf = new StringBuilder();
 
 		if (this.headers != null) {
 			StringBuilder headerBuf = new StringBuilder();
 			for (int i = 0; i < this.headers.size(); i++) {
-				headerBuf.append(String.format(" %-" + this.cellLengths.get(i) + "s ", this.headers.get(i)));
+				headerBuf.append(' ')
+					.append(StringUtils.padRight(this.headers.get(i), this.cellLengths.get(i)))
+					.append(' ');
 			}
 
-			buf.append(headerBuf)
+			tableBuf.append(headerBuf)
 				.append('\n')
 				.append(StringUtils.repeat("*", headerBuf.length()))
 				.append('\n');
@@ -55,12 +57,14 @@ public class StringTableBuilder {
 
 		for (ArrayList<String> row : rows) {
 			for (int i = 0; i < row.size(); i++) {
-				buf.append(String.format(" %-" + this.cellLengths.get(i) + "s ", row.get(i)));
+				tableBuf.append(' ')
+					.append(StringUtils.padRight(row.get(i), this.cellLengths.get(i)))
+					.append(' ');
 			}
 
-			buf.append('\n');
+			tableBuf.append('\n');
 		}
 
-		return buf.toString();
+		return tableBuf.toString();
 	}
 }

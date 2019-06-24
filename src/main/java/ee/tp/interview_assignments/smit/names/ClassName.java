@@ -2,7 +2,10 @@ package ee.tp.interview_assignments.smit.names;
 
 import java.util.Objects;
 
-public class ClassName {
+/**
+ * Wrapper for a class name string.
+ */
+public class ClassName implements Comparable<ClassName> {
 	private static final char NAME_SEPARATOR = '.';
 
 	public static ClassName of(String name) {
@@ -13,9 +16,12 @@ public class ClassName {
 	private String simpleName;
 
 	private ClassName(String nameString) {
-		this.nameString = nameString;
+		this.nameString = Objects.requireNonNull(nameString);
 	}
 
+	/**
+	 * @return the last part of the wrapped (potentially fully qualified) class name
+	 */
 	public String getSimpleName() {
 		if (simpleName == null) {
 			int lastSepIdx = nameString.lastIndexOf(NAME_SEPARATOR);
@@ -47,5 +53,10 @@ public class ClassName {
 			return false;
 		ClassName other = (ClassName) obj;
 		return Objects.equals(this.nameString, other.nameString);
+	}
+
+	@Override
+	public int compareTo(ClassName other) {
+		return this.nameString.compareTo(other.nameString);
 	}
 }

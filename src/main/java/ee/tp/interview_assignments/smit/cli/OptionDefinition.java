@@ -10,56 +10,59 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Container for parameters extracted from {@link Option}.
+ */
 class OptionDefinition {
-	static class CommandLineOptionDefinitionBuilder {
+	static class OptionDefinitionBuilder {
 		private OptionDefinition option;
 		private Class<? extends OptionValidator> validator;
 
-		CommandLineOptionDefinitionBuilder() {
+		OptionDefinitionBuilder() {
 			this.option = new OptionDefinition();
 		}
 
-		public CommandLineOptionDefinitionBuilder setName(String name) {
+		public OptionDefinitionBuilder setName(String name) {
 			this.option.name = name;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setRequired(boolean required) {
+		public OptionDefinitionBuilder setRequired(boolean required) {
 			this.option.required = required;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setFlag(boolean flag) {
+		public OptionDefinitionBuilder setFlag(boolean flag) {
 			this.option.flag = flag;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setUsage(String usage) {
+		public OptionDefinitionBuilder setUsage(String usage) {
 			this.option.description = usage;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setParserClass(Class<? extends OptionParser> parserClass) {
+		public OptionDefinitionBuilder setParserClass(Class<? extends OptionParser> parserClass) {
 			this.option.parserClass = parserClass;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setValidatorClass(Class<? extends OptionValidator> validatorClass) {
+		public OptionDefinitionBuilder setValidatorClass(Class<? extends OptionValidator> validatorClass) {
 			this.option.validatorClass = validatorClass;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setField(Field field) {
+		public OptionDefinitionBuilder setField(Field field) {
 			this.option.field = field;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setHelpOption(boolean helpOption) {
+		public OptionDefinitionBuilder setHelpOption(boolean helpOption) {
 			this.option.helpOption = helpOption;
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setAliases(List<String> aliases) {
+		public OptionDefinitionBuilder setAliases(List<String> aliases) {
 			this.option.aliases.addAll(aliases);
 			return this;
 		}
@@ -77,9 +80,11 @@ class OptionDefinition {
 	private String description;
 
 	private Field field;
-	private Set<String> aliases = new LinkedHashSet<>();
+
 	private Class<? extends OptionValidator> validatorClass;
 	private Class<? extends OptionParser> parserClass;
+
+	private Set<String> aliases = new LinkedHashSet<>();
 
 	private OptionDefinition() { }
 

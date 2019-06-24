@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * {@link ClassNameMatcher} implementation which will match a class name based on whether it contains a sub-sequence
+ * of words starting with the prefixes listed in the query string.
+ * @see ee.tp.interview_assignments.smit.matching.QueryParser
+ */
 public class PrefixMatcher implements ClassNameMatcher {
 	private final List<QueryToken> queryTokens;
 	private final boolean matchLastTokenExactly;

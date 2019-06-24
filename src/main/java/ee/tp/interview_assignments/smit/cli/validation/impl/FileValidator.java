@@ -6,6 +6,15 @@ import ee.tp.interview_assignments.smit.cli.validation.OptionValidator;
 import java.io.File;
 import java.nio.file.Files;
 
+/**
+ * {@link OptionValidator} implementation for option fields of type {@link File}.<br/>
+ * <br/>
+ * Checks whether:
+ * <ul>
+ *   <li>file exists;</li>
+ *   <li>file is readable.</li>
+ * </ul>
+ */
 public class FileValidator implements OptionValidator<File> {
 	@Override
 	public void validate(File optionValue) throws InvalidOptionException {

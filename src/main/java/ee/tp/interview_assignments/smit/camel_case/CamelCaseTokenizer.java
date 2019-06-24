@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Token extractor for camel-case strings based on {@link CamelCaseIterator}.
+ */
 public class CamelCaseTokenizer implements Iterable<String> {
 	private static List<String> extractTokens(String str) {
 		List<String> tokens = new ArrayList<>();

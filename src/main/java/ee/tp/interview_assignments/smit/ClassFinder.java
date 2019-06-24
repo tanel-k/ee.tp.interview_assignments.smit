@@ -55,6 +55,7 @@ public class ClassFinder {
 
 	public static void main(String... args) {
 		try {
+
 			ArgumentArrayParser<ClassFinderOptions> parser = ArgumentArrayParser.forClass(
 				ClassFinderOptions.class
 			);
@@ -77,6 +78,7 @@ public class ClassFinder {
 					.filter(matcher::matches)
 					.sorted(Comparator.comparing(ClassName::getSimpleName))
 					.forEach(out::println);
+
 		} catch (ArgumentArrayParseException ex) {
 			exitWithError(StatusCode.INVALID_INPUT, ex.getMessage());
 		} catch (IOException ex) {
