@@ -7,5 +7,5 @@ package ee.tp.interview_assignments.smit.cli.parsing;
  * @see ee.tp.interview_assignments.smit.cli.Option
  */
 public interface OptionParser<T> {
-	T parse(String input) throws OptionParseException;
+    T parse(String input) throws OptionParseException;
 }

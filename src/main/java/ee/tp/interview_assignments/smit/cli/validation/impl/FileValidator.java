@@ -11,18 +11,18 @@ import java.nio.file.Files;
  * <br/>
  * Checks whether:
  * <ul>
- *   <li>file exists;</li>
- *   <li>file is readable.</li>
+ * <li>file exists;</li>
+ * <li>file is readable.</li>
  * </ul>
  */
 public class FileValidator implements OptionValidator<File> {
-	@Override
-	public void validate(File optionValue) throws InvalidOptionException {
-		if (!optionValue.exists())
-			throw new InvalidOptionException("File '" + optionValue.getPath() + "' does not exist.");
+    @Override
+    public void validate(File optionValue) throws InvalidOptionException {
+        if (!optionValue.exists())
+            throw new InvalidOptionException("File '" + optionValue.getPath() + "' does not exist.");
 
-		if (!Files.isReadable(optionValue.toPath()))
-			throw new InvalidOptionException("File '" + optionValue.getPath() + "' is not readable.");
-	}
+        if (!Files.isReadable(optionValue.toPath()))
+            throw new InvalidOptionException("File '" + optionValue.getPath() + "' is not readable.");
+    }
 }
 

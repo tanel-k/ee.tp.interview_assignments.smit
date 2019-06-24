@@ -6,11 +6,11 @@ package ee.tp.interview_assignments.smit.cli.parsing;
  * @see OptionParser
  */
 public class OptionParseException extends Exception {
-	public OptionParseException(String msg) {
-		super(msg);
-	}
+    public OptionParseException(String msg) {
+        super(msg);
+    }
 
-	public OptionParseException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
+    public OptionParseException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

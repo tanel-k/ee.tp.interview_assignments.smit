@@ -10,25 +10,25 @@ import java.util.Objects;
  * Token extractor for camel-case strings based on {@link CamelCaseIterator}.
  */
 public class CamelCaseTokenizer implements Iterable<String> {
-	private static List<String> extractTokens(String str) {
-		List<String> tokens = new ArrayList<>();
-		new CamelCaseIterator(Objects.requireNonNull(str))
-			.forEachRemaining(tokens::add);
-		return tokens;
-	}
+    private static List<String> extractTokens(String str) {
+        List<String> tokens = new ArrayList<>();
+        new CamelCaseIterator(Objects.requireNonNull(str))
+            .forEachRemaining(tokens::add);
+        return tokens;
+    }
 
-	private final List<String> immutableTokenList;
+    private final List<String> immutableTokenList;
 
-	public CamelCaseTokenizer(String string) {
-		this.immutableTokenList = Collections.unmodifiableList(extractTokens(string));
-	}
+    public CamelCaseTokenizer(String string) {
+        this.immutableTokenList = Collections.unmodifiableList(extractTokens(string));
+    }
 
-	public List<String> getTokenList() {
-		return immutableTokenList;
-	}
+    public List<String> getTokenList() {
+        return immutableTokenList;
+    }
 
-	@Override
-	public Iterator<String> iterator() {
-		return this.immutableTokenList.iterator();
-	}
+    @Override
+    public Iterator<String> iterator() {
+        return this.immutableTokenList.iterator();
+    }
 }

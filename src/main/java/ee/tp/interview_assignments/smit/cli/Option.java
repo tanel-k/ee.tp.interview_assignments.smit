@@ -16,13 +16,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Option {
-	boolean helpOption() default false;
-	boolean required() default true;
+    boolean required() default true;
+    boolean helpOption() default false;
 
-	String name();
-	String[] aliases() default "";
-	String description() default "";
+    String name();
+    String[] aliases() default "";
+    String description() default "";
 
-	Class<? extends OptionValidator> validator() default DefaultOptionValidator.class;
-	Class<? extends OptionParser> parser() default DefaultOptionParser.class;
+    Class<? extends OptionValidator> validator() default DefaultOptionValidator.class;
+    Class<? extends OptionParser> parser() default DefaultOptionParser.class;
 }

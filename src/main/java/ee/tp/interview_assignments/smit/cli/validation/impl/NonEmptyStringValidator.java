@@ -10,9 +10,9 @@ import ee.tp.interview_assignments.smit.utils.StringUtils;
  * Ensures string option is not empty.
  */
 public class NonEmptyStringValidator implements OptionValidator<String> {
-	@Override
-	public void validate(String optionValue) throws InvalidOptionException {
-		if (StringUtils.isEmpty(optionValue))
-			throw new InvalidOptionException("Option cannot be empty.");
-	}
+    @Override
+    public void validate(String optionValue) throws InvalidOptionException {
+        if (StringUtils.isEmpty(optionValue))
+            throw new InvalidOptionException("Option cannot be empty.");
+    }
 }
