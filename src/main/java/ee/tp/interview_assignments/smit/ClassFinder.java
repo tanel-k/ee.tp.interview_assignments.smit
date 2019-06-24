@@ -1,8 +1,7 @@
 package ee.tp.interview_assignments.smit;
 
-import ee.tp.interview_assignments.smit.cli.CommandLineArgArrayParser;
-import ee.tp.interview_assignments.smit.cli.InvalidOptionsException;
-import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
+import ee.tp.interview_assignments.smit.cli.ArgumentArrayParseException;
+import ee.tp.interview_assignments.smit.cli.ArgumentArrayParser;
 import ee.tp.interview_assignments.smit.matching.ClassNameMatcher;
 import ee.tp.interview_assignments.smit.matching.QueryParser;
 import ee.tp.interview_assignments.smit.names.ClassName;
@@ -56,7 +55,7 @@ public class ClassFinder {
 
 	public static void main(String... args) {
 		try {
-			CommandLineArgArrayParser<ClassFinderOptions> parser = CommandLineArgArrayParser.forClass(
+			ArgumentArrayParser<ClassFinderOptions> parser = ArgumentArrayParser.forClass(
 				ClassFinderOptions.class
 			);
 			ClassFinderOptions options = parser.parse(args);
@@ -78,7 +77,7 @@ public class ClassFinder {
 					.filter(matcher::matches)
 					.sorted(Comparator.comparing(ClassName::getSimpleName))
 					.forEach(out::println);
-		} catch (InvalidOptionException|InvalidOptionsException ex) {
+		} catch (ArgumentArrayParseException ex) {
 			exitWithError(StatusCode.INVALID_INPUT, ex.getMessage());
 		} catch (IOException ex) {
 			exitWithError(StatusCode.FILE_IO, ex);

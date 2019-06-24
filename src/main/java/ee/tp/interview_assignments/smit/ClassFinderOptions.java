@@ -3,34 +3,16 @@ package ee.tp.interview_assignments.smit;
 import ee.tp.interview_assignments.smit.cli.Option;
 import ee.tp.interview_assignments.smit.cli.OptionsBean;
 import ee.tp.interview_assignments.smit.cli.parsing.impl.FileOptionParser;
-import ee.tp.interview_assignments.smit.cli.validation.OptionValidator;
-import ee.tp.interview_assignments.smit.cli.validation.InvalidOptionException;
-import ee.tp.interview_assignments.smit.utils.StringUtils;
+import ee.tp.interview_assignments.smit.cli.validation.impl.FileValidator;
+import ee.tp.interview_assignments.smit.cli.validation.impl.NonEmptyStringValidator;
 
 import java.io.File;
 
 public class ClassFinderOptions extends OptionsBean {
-	private static class ClassListFileValidator implements OptionValidator<File,ClassFinderOptions> {
-		@Override
-		public void validate(File option, ClassFinderOptions optionsBean) throws InvalidOptionException {
-			if (!option.exists())
-				throw new InvalidOptionException("'" + option.getPath() + "' does not exist.");
-		}
-	}
-
-	private static class QueryValidator implements OptionValidator<String, ClassFinderOptions> {
-		@Override
-		public void validate(String option, ClassFinderOptions optionsBean) throws InvalidOptionException {
-			if (StringUtils.isEmpty(option))
-				throw new InvalidOptionException("Query cannot be empty.");
-		}
-	}
-
 	@Option(
 		name = "--help",
 		aliases = "-h",
 		description = "Prints usage instructions.",
-		validator = ClassListFileValidator.class,
 		helpOption = true
 	)
 	private boolean printHelp;
@@ -39,7 +21,7 @@ public class ClassFinderOptions extends OptionsBean {
 		name = "--query",
 		aliases = "-q",
 		description = "Class name query.",
-		validator = QueryValidator.class
+		validator = NonEmptyStringValidator.class
 	)
 	private String query;
 
@@ -47,7 +29,8 @@ public class ClassFinderOptions extends OptionsBean {
 		name = "--file",
 		aliases = "-f",
 		description = "Path to file which contains class names.",
-		parser = FileOptionParser.class
+		parser = FileOptionParser.class,
+		validator = FileValidator.class
 	)
 	private File nameListFile;
 

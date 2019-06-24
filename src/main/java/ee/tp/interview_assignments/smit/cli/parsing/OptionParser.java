@@ -1,5 +1,5 @@
 package ee.tp.interview_assignments.smit.cli.parsing;
 
-public interface CommandLineOptionParser<T> {
+public interface OptionParser<T> {
 	T parse(String input) throws OptionParseException;
 }

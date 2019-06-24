@@ -1,6 +1,6 @@
 package ee.tp.interview_assignments.smit.cli;
 
-import ee.tp.interview_assignments.smit.cli.parsing.CommandLineOptionParser;
+import ee.tp.interview_assignments.smit.cli.parsing.OptionParser;
 import ee.tp.interview_assignments.smit.cli.parsing.impl.DefaultOptionParser;
 import ee.tp.interview_assignments.smit.cli.validation.OptionValidator;
 import ee.tp.interview_assignments.smit.cli.validation.impl.DefaultOptionValidator;
@@ -21,5 +21,5 @@ public @interface Option {
 	String description() default "";
 
 	Class<? extends OptionValidator> validator() default DefaultOptionValidator.class;
-	Class<? extends CommandLineOptionParser> parser() default DefaultOptionParser.class;
+	Class<? extends OptionParser> parser() default DefaultOptionParser.class;
 }

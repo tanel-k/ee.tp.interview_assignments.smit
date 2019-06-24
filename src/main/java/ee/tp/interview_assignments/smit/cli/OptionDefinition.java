@@ -1,6 +1,8 @@
 package ee.tp.interview_assignments.smit.cli;
 
-import ee.tp.interview_assignments.smit.cli.parsing.CommandLineOptionParser;
+import ee.tp.interview_assignments.smit.cli.parsing.OptionParser;
+import ee.tp.interview_assignments.smit.cli.validation.OptionValidator;
+import ee.tp.interview_assignments.smit.utils.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -11,6 +13,7 @@ import java.util.Set;
 class OptionDefinition {
 	static class CommandLineOptionDefinitionBuilder {
 		private OptionDefinition option;
+		private Class<? extends OptionValidator> validator;
 
 		CommandLineOptionDefinitionBuilder() {
 			this.option = new OptionDefinition();
@@ -36,8 +39,13 @@ class OptionDefinition {
 			return this;
 		}
 
-		public CommandLineOptionDefinitionBuilder setParserClass(Class<? extends CommandLineOptionParser> parserClass) {
+		public CommandLineOptionDefinitionBuilder setParserClass(Class<? extends OptionParser> parserClass) {
 			this.option.parserClass = parserClass;
+			return this;
+		}
+
+		public CommandLineOptionDefinitionBuilder setValidatorClass(Class<? extends OptionValidator> validatorClass) {
+			this.option.validatorClass = validatorClass;
 			return this;
 		}
 
@@ -70,7 +78,8 @@ class OptionDefinition {
 
 	private Field field;
 	private Set<String> aliases = new LinkedHashSet<>();
-	private Class<? extends CommandLineOptionParser> parserClass;
+	private Class<? extends OptionValidator> validatorClass;
+	private Class<? extends OptionParser> parserClass;
 
 	private OptionDefinition() { }
 
@@ -94,7 +103,7 @@ class OptionDefinition {
 		return helpOption;
 	}
 
-	public Class<? extends CommandLineOptionParser> getParserClass() {
+	public Class<? extends OptionParser> getParserClass() {
 		return parserClass;
 	}
 
@@ -104,5 +113,18 @@ class OptionDefinition {
 
 	public Set<String> getAliases() {
 		return Collections.unmodifiableSet(aliases);
+	}
+
+	public Class<? extends OptionValidator> getValidatorClass() {
+		return validatorClass;
+	}
+
+	public String getUsageString() {
+		String usageString = flag
+			? name
+			: name + " <" + StringUtils.capitalize(field.getType().getSimpleName()) + ">";
+		return required
+			? usageString
+			: "(" + usageString + ")";
 	}
 }

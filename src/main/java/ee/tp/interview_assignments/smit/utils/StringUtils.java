@@ -24,4 +24,29 @@ public class StringUtils {
 		}
 		return false;
 	}
+
+	public static String defaultString(String str, String defaultValue) {
+		return isEmpty(str) ? defaultValue : str;
+	}
+
+	public static String defaultString(String str) {
+		return defaultString(str, "");
+	}
+
+	public static String repeat(String str, int count) {
+		StringBuilder buf = new StringBuilder();
+		for (int i = 0; i < count; i++)
+			buf.append(str);
+		return buf.toString();
+	}
+
+	public static String capitalize(String str) {
+		if (isEmpty(str))
+			return str;
+
+		if (str.length() == 1)
+			return str.toUpperCase();
+
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
 }
