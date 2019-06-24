@@ -129,10 +129,10 @@ public class ArgumentArrayParser<T extends OptionsBean> {
                 containsHelpOption = containsHelpOption || option.isHelpOption();
                 try {
                     option.getField().set(optionsBean, Boolean.TRUE);
-                } catch (IllegalAccessException ex) {
+                } catch (Throwable t) {
                     throw new RuntimeException(
                         "Failed to set flag '" + option.getName() + "'.",
-                        ex
+                        t
                     );
                 }
             } else {

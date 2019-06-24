@@ -1,5 +1,7 @@
 package ee.tp.interview_assignments.smit.names;
 
+import ee.tp.interview_assignments.smit.utils.StringUtils;
+
 import java.util.Objects;
 
 /**
@@ -16,7 +18,12 @@ public class ClassName implements Comparable<ClassName> {
     private String simpleName;
 
     private ClassName(String nameString) {
-        this.nameString = Objects.requireNonNull(nameString);
+        Objects.requireNonNull(nameString);
+
+        if ((nameString = StringUtils.trimToEmpty(nameString)).isEmpty())
+            throw new IllegalArgumentException("Class name cannot be empty.");
+
+        this.nameString = nameString;
     }
 
     /**

@@ -17,6 +17,9 @@ public class QueryParser {
     public static ClassNameMatcher parse(String queryString) {
         Objects.requireNonNull(queryString);
 
+        if ((queryString = StringUtils.trimToEmpty(queryString)).isEmpty())
+            throw new IllegalArgumentException("Query string cannot be empty.");
+
         // Note: user is responsible for ensuring their query is "valid".
         // No reason to excessively restrict set of possible queries.
         boolean hasExactMatchModifier = queryString.charAt(queryString.length() - 1) == EXACT_MATCH_MODIFIER;

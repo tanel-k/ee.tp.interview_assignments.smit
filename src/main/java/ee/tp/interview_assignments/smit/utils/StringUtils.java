@@ -1,6 +1,8 @@
 package ee.tp.interview_assignments.smit.utils;
 
 public class StringUtils {
+    public static final String EMPTY_STRING = "";
+
     /**
      * @return true, if <code>str</code> starts with the sub-string <code>prefix</code>,
      * with <code>wildcard</code> marking positions in <code>str</code> that should be ignored.
@@ -48,7 +50,7 @@ public class StringUtils {
      * @see #isEmpty(String)
      */
     public static String defaultString(String str) {
-        return defaultString(str, "");
+        return defaultString(str, EMPTY_STRING);
     }
 
     /**
@@ -78,5 +80,22 @@ public class StringUtils {
      */
     public static String padRight(String str, int width) {
         return String.format("%-" + width + "s", str);
+    }
+
+    /**
+     * @return trimmed version of the input string.
+     */
+    public static String trimToEmpty(String str) {
+        str = defaultString(str);
+
+        int start = 0;
+        while (start < str.length() && (str.charAt(start) == ' ' || str.charAt(start) == '\t'))
+            start++;
+
+        int end = str.length() - 1;
+        while (end > start && (str.charAt(end) == ' ' || str.charAt(end) == '\t'))
+            end--;
+
+        return end + 1 > start ? str.substring(start, end + 1) : EMPTY_STRING;
     }
 }

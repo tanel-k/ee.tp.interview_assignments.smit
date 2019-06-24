@@ -3,6 +3,7 @@ package ee.tp.interview_assignments.smit.names;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClassNameTests {
     @Test
@@ -30,5 +31,15 @@ public class ClassNameTests {
             "$_class",
             "Correctly extracts simple name from class name that uses special symbols."
         );
+    }
+
+    @Test
+    public void testRejectsNullClass() {
+        assertThrows(NullPointerException.class, () -> ClassName.of(null), "Rejects null class names.");
+    }
+
+    @Test
+    public void testRejectsEmptyClass() {
+        assertThrows(IllegalArgumentException.class, () -> ClassName.of("\t   \t "), "Rejects empty class names.");
     }
 }
