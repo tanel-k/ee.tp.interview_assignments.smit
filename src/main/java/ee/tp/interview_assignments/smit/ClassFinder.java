@@ -16,6 +16,9 @@ import static java.lang.System.err;
 import static java.lang.System.exit;
 import static java.lang.System.out;
 
+/**
+ * Entry point for class finder command-line interface.
+ */
 public class ClassFinder {
 	private enum StatusCode {
 		INVALID_INPUT(1, "Invalid input."),

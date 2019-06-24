@@ -8,6 +8,9 @@ import ee.tp.interview_assignments.smit.cli.validation.impl.NonEmptyStringValida
 
 import java.io.File;
 
+/**
+ * Class finder CLI option contract specification.
+ */
 public class ClassFinderOptions extends OptionsBean {
 	@Option(
 		name = "-h",
