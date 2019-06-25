@@ -13,8 +13,6 @@ import java.util.Objects;
  */
 public class CamelCaseTokenizer implements Iterable<String> {
     private static List<String> extractTokens(String str) {
-        str = StringUtils.removeAllWhitespace(str);
-
         List<String> tokens = new ArrayList<>();
         if (!str.isEmpty()) {
             new CamelCaseIterator(str).forEachRemaining(tokens::add);
@@ -23,19 +21,22 @@ public class CamelCaseTokenizer implements Iterable<String> {
         return tokens;
     }
 
-    private final List<String> immutableTokenList;
+    private final String str;
+    private List<String> cachedTokenList;
 
     public CamelCaseTokenizer(String str) {
         Objects.requireNonNull(str);
-        this.immutableTokenList = Collections.unmodifiableList(extractTokens(str));
+        this.str = StringUtils.removeAllWhitespace(str);
     }
 
     public List<String> getTokenList() {
-        return immutableTokenList;
+        if (cachedTokenList == null)
+            cachedTokenList = Collections.unmodifiableList(extractTokens(this.str));
+        return cachedTokenList;
     }
 
     @Override
     public Iterator<String> iterator() {
-        return this.immutableTokenList.iterator();
+        return getTokenList().iterator();
     }
 }
