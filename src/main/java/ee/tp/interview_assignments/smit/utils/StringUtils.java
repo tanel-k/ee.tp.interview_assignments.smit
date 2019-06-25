@@ -1,5 +1,7 @@
 package ee.tp.interview_assignments.smit.utils;
 
+import java.util.Objects;
+
 public class StringUtils {
     public static final String EMPTY_STRING = "";
 
@@ -7,12 +9,17 @@ public class StringUtils {
      * @return true, if <code>str</code> starts with the sub-string <code>prefix</code>,
      * with <code>wildcard</code> marking positions in <code>str</code> that should be ignored.
      */
-    public static boolean startsWith(String str, String prefix, char wildcard) {
+    public static boolean startsWith(String str, String prefix, Character wildcard) {
+        Objects.requireNonNull(str);
+        Objects.requireNonNull(prefix);
+
         if (str.length() < prefix.length())
             return false;
 
         for (int i = 0; i < prefix.length(); i++) {
-            if (prefix.charAt(i) != str.charAt(i) && prefix.charAt(i) != wildcard)
+            if (wildcard != null && wildcard.equals(prefix.charAt(i)))
+                continue;
+            if (prefix.charAt(i) != str.charAt(i))
                 return false;
         }
 
@@ -30,10 +37,14 @@ public class StringUtils {
      * @return true if the input string contains at least one uppercase letter.
      */
     public static boolean containsUppercaseLetters(String str) {
+        if ((str = trimToEmpty(str)).isEmpty())
+            return false;
+
         for (int i = 0; i < str.length(); i++) {
             if (Character.isUpperCase(str.charAt(i)))
                 return true;
         }
+
         return false;
     }
 

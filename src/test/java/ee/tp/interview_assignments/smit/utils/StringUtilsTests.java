@@ -3,6 +3,7 @@ package ee.tp.interview_assignments.smit.utils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for {@link StringUtils}.
@@ -10,12 +11,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StringUtilsTests {
     @Test
     public void testStartsWith() {
-        throw new UnsupportedOperationException("TODO");
+        assertThrows(
+            NullPointerException.class,
+            () -> StringUtils.startsWith("string", null, null),
+            "Rejects null prefix."
+        );
+
+        assertThrows(
+            NullPointerException.class,
+            () -> StringUtils.startsWith(null, "prefix", null),
+            "Rejects null string."
+        );
+
+        assertEquals(StringUtils.startsWith("string", "str", null), Boolean.TRUE, "Handles null wildcard.");
+        assertEquals(StringUtils.startsWith("string", "*t*", '*'), Boolean.TRUE, "Handles wildcard.");
+        assertEquals(StringUtils.startsWith("string", "", null), Boolean.TRUE, "Empty string prefixes all strings.");
     }
 
     @Test
     public void testContainsUppercaseLetters() {
-        throw new UnsupportedOperationException("TODO");
+        assertEquals(StringUtils.containsUppercaseLetters("0123459789"), Boolean.FALSE, "Handles numerals.");
+        assertEquals(StringUtils.containsUppercaseLetters("a \nb"), Boolean.FALSE, "Handles whitespace.");
+        assertEquals(StringUtils.containsUppercaseLetters("abc"), Boolean.FALSE, "Does not return true for lowercase string.");
+        assertEquals(StringUtils.containsUppercaseLetters(" aBc"), Boolean.TRUE, "Finds nested uppercase letter.");
+        assertEquals(StringUtils.containsUppercaseLetters(null), Boolean.FALSE, "Handles null.");
+        assertEquals(StringUtils.containsUppercaseLetters(""), Boolean.FALSE, "Handles empty.");
+
     }
 
     @Test
