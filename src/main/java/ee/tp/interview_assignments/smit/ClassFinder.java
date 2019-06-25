@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.System.err;
 import static java.lang.System.exit;
@@ -73,12 +74,16 @@ public class ClassFinder {
             List<String> rawLines = Files.readAllLines(options.getNameListFile().toPath());
             ClassNameMatcher matcher = QueryParser.parse(options.getQuery());
 
-            rawLines.stream()
+            List<ClassName> matchingClassNames = rawLines.stream()
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .distinct()
                 .map(ClassName::of)
+                .parallel()
                 .filter(matcher::matches)
+                .collect(Collectors.toList());
+
+            matchingClassNames.stream()
                 .sorted(Comparator.comparing(ClassName::getSimpleName))
                 .forEach(out::println);
 
