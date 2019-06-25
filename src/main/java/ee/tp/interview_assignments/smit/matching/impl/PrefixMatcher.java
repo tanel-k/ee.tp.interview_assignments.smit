@@ -30,6 +30,10 @@ public class PrefixMatcher implements ClassNameMatcher {
         }
     }
 
+    public PrefixMatcher(String query) {
+        this(query, Boolean.FALSE);
+    }
+
     public PrefixMatcher(String query, boolean matchLastTokenExactly) {
         List<String> queryTokens = new CamelCaseTokenizer(Objects.requireNonNull(query))
             .getTokenList();
