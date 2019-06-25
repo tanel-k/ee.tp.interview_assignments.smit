@@ -1,2 +1,2 @@
 # Class finder
-TODO: add notes to simply review.
+TODO: add notes to simplify review.
