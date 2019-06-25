@@ -57,6 +57,9 @@ public class StringUtils {
      * @return string consisting of <code>count</code> copies of <code>str</code>.
      */
     public static String repeat(String str, int count) {
+        if (isEmpty(str))
+            return str;
+
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < count; i++)
             buf.append(str);
@@ -89,13 +92,16 @@ public class StringUtils {
         str = defaultString(str);
 
         int start = 0;
-        while (start < str.length() && (str.charAt(start) == ' ' || str.charAt(start) == '\t'))
+        while (start < str.length() && Character.isWhitespace(str.charAt(start)))
             start++;
 
         int end = str.length() - 1;
-        while (end > start && (str.charAt(end) == ' ' || str.charAt(end) == '\t'))
+        while (end > start && Character.isWhitespace(str.charAt(end)))
             end--;
+        end++;
 
-        return end + 1 > start ? str.substring(start, end + 1) : EMPTY_STRING;
+        return end > start
+            ? str.substring(start, end)
+            : EMPTY_STRING;
     }
 }
