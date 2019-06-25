@@ -17,7 +17,7 @@ public class QueryParser {
     public static ClassNameMatcher parse(String queryString) {
         Objects.requireNonNull(queryString);
 
-        if ((queryString = StringUtils.trimToEmpty(queryString)).isEmpty())
+        if (StringUtils.trimToEmpty(queryString).isEmpty())
             throw new IllegalArgumentException("Query string cannot be empty.");
 
         // Note: user is responsible for ensuring their query is "valid".
@@ -25,6 +25,7 @@ public class QueryParser {
         boolean hasExactMatchModifier = queryString.charAt(queryString.length() - 1) == EXACT_MATCH_MODIFIER;
         boolean hasUppercaseLetters = StringUtils.containsUppercaseLetters(queryString);
 
+        queryString = StringUtils.removeAllWhitespace(queryString);
         if (hasUppercaseLetters) {
             return new PrefixMatcher(
                 hasExactMatchModifier
