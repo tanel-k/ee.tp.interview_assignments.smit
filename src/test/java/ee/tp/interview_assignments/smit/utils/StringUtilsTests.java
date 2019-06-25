@@ -79,6 +79,8 @@ public class StringUtilsTests {
         assertEquals(StringUtils.trimToEmpty("a  "), "a", "Trims even right padding.");
         assertEquals(StringUtils.trimToEmpty(" a  "), "a", "Trims asymmetrical padding.");
         assertEquals(StringUtils.trimToEmpty("  a "), "a", "Trims asymmetrical padding.");
+        assertEquals(StringUtils.trimToEmpty("  a  "), "a", "Trims even symmetrical padding.");
+        assertEquals(StringUtils.trimToEmpty("   a   "), "a", "Trims odd symmetrical padding.");
         assertEquals(StringUtils.trimToEmpty("  abc  "), "abc", "Retains odd length string.");
         assertEquals(StringUtils.trimToEmpty("  test  "), "test", "Retains even length string.");
         assertEquals(StringUtils.trimToEmpty("\n\t "), "", "Trims whitespace to empty.");
