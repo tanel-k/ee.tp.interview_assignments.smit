@@ -7,8 +7,8 @@ import ee.tp.interview_assignments.smit.cli.parsing.OptionParser;
  * Returns option values as-is.
  */
 public class DefaultOptionParser implements OptionParser<String> {
-	@Override
-	public String parse(String input) {
-		return input;
-	}
+    @Override
+    public String parse(String input) {
+        return input;
+    }
 }

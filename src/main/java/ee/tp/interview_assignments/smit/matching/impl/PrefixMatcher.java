@@ -13,55 +13,60 @@ import java.util.stream.Collectors;
 /**
  * {@link ClassNameMatcher} implementation which will match a class name based on whether it contains a sub-sequence
  * of words starting with the prefixes listed in the query string.
+ *
  * @see ee.tp.interview_assignments.smit.matching.QueryParser
  */
 public class PrefixMatcher implements ClassNameMatcher {
-	private final List<QueryToken> queryTokens;
-	private final boolean matchLastTokenExactly;
+    private final List<QueryToken> queryTokens;
+    private final boolean matchLastTokenExactly;
 
-	protected static class QueryToken {
-		String token;
-		boolean containsWildcard;
+    protected static class QueryToken {
+        String token;
+        boolean containsWildcard;
 
-		QueryToken(String token) {
-			this.token = token;
-			this.containsWildcard = token.indexOf(WILDCARD) >= 0;
-		}
-	}
+        QueryToken(String token) {
+            this.token = token;
+            this.containsWildcard = token.indexOf(WILDCARD) >= 0;
+        }
+    }
 
-	public PrefixMatcher(String query, boolean matchLastTokenExactly) {
-		List<String> queryTokens = new CamelCaseTokenizer(Objects.requireNonNull(query))
-			.getTokenList();
-		this.queryTokens = queryTokens.stream()
-			.map(QueryToken::new)
-			.collect(Collectors.toCollection(() -> new ArrayList<>(queryTokens.size())));
-		this.matchLastTokenExactly = matchLastTokenExactly;
-	}
+    public PrefixMatcher(String query) {
+        this(query, Boolean.FALSE);
+    }
 
-	protected boolean tokenMatch(String token, QueryToken queryToken) {
-		if (!queryToken.containsWildcard)
-			return token.startsWith(queryToken.token);
+    public PrefixMatcher(String query, boolean matchLastTokenExactly) {
+        List<String> queryTokens = new CamelCaseTokenizer(Objects.requireNonNull(query))
+            .getTokenList();
+        this.queryTokens = queryTokens.stream()
+            .map(QueryToken::new)
+            .collect(Collectors.toCollection(() -> new ArrayList<>(queryTokens.size())));
+        this.matchLastTokenExactly = matchLastTokenExactly;
+    }
 
-		return StringUtils.startsWith(token, queryToken.token, WILDCARD);
-	}
+    protected boolean tokenMatch(String token, QueryToken queryToken) {
+        if (!queryToken.containsWildcard)
+            return token.startsWith(queryToken.token);
 
-	@Override
-	public boolean matches(ClassName name) {
-		String simpleName = name.getSimpleName();
-		List<String> nameTokens = new CamelCaseTokenizer(simpleName).getTokenList();
+        return StringUtils.startsWith(token, queryToken.token, WILDCARD);
+    }
 
-		for (int i = 0, q = 0; i < nameTokens.size(); i++) {
-			QueryToken queryToken = queryTokens.get(q);
+    @Override
+    public boolean matches(ClassName name) {
+        String simpleName = name.getSimpleName();
+        List<String> nameTokens = new CamelCaseTokenizer(simpleName).getTokenList();
 
-			if (matchLastTokenExactly && q == queryTokens.size() - 1)
-				return queryToken.token.equals(nameTokens.get(nameTokens.size() - 1));
+        for (int i = 0, q = 0; i < nameTokens.size(); i++) {
+            QueryToken queryToken = queryTokens.get(q);
 
-			if (tokenMatch(nameTokens.get(i), queryToken)) {
-				if ((++q) == queryTokens.size())
-					return true;
-			}
-		}
+            if (matchLastTokenExactly && q == queryTokens.size() - 1)
+                return queryToken.token.equals(nameTokens.get(nameTokens.size() - 1));
 
-		return false;
-	}
+            if (tokenMatch(nameTokens.get(i), queryToken)) {
+                if ((++q) == queryTokens.size())
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }

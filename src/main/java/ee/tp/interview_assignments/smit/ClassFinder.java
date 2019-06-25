@@ -20,74 +20,74 @@ import static java.lang.System.out;
  * Entry point for class finder command-line interface.
  */
 public class ClassFinder {
-	private enum StatusCode {
-		INVALID_INPUT(1, "Invalid input."),
-		FILE_IO(2, "File I/O error."),
-		UNEXPECTED(3, "Unexpected error.");
+    private enum StatusCode {
+        INVALID_INPUT(1, "Invalid input."),
+        FILE_IO(2, "File I/O error."),
+        UNEXPECTED(3, "Unexpected error.");
 
-		private int status;
-		private String description;
+        private int status;
+        private String description;
 
-		StatusCode(int status, String description) {
-			this.status = status;
-			this.description = description;
-		}
-	}
+        StatusCode(int status, String description) {
+            this.status = status;
+            this.description = description;
+        }
+    }
 
-	private static void exitWithError(StatusCode statusCode, Throwable t) {
-		exitWithError(statusCode, null, t);
-	}
+    private static void exitWithError(StatusCode statusCode, Throwable t) {
+        exitWithError(statusCode, null, t);
+    }
 
-	private static void exitWithError(StatusCode statusCode, String detailMessage) {
-		exitWithError(statusCode, detailMessage, null);
-	}
+    private static void exitWithError(StatusCode statusCode, String detailMessage) {
+        exitWithError(statusCode, detailMessage, null);
+    }
 
-	private static void exitWithError(StatusCode statusCode, String detailMessage, Throwable t) {
-		err.println(statusCode.description);
+    private static void exitWithError(StatusCode statusCode, String detailMessage, Throwable t) {
+        err.println(statusCode.description);
 
-		if (!StringUtils.isEmpty(detailMessage))
-			err.println(detailMessage);
+        if (!StringUtils.isEmpty(detailMessage))
+            err.println(detailMessage);
 
-		if (t != null) {
-			err.println("\nStack trace:");
-			t.printStackTrace(err);
-		}
+        if (t != null) {
+            err.println("\nStack trace:");
+            t.printStackTrace(err);
+        }
 
-		exit(statusCode.status);
-	}
+        exit(statusCode.status);
+    }
 
-	public static void main(String... args) {
-		try {
+    public static void main(String... args) {
+        try {
 
-			ArgumentArrayParser<ClassFinderOptions> parser = ArgumentArrayParser.forClass(
-				ClassFinderOptions.class
-			);
-			ClassFinderOptions options = parser.parse(args);
+            ArgumentArrayParser<ClassFinderOptions> parser = ArgumentArrayParser.forClass(
+                ClassFinderOptions.class
+            );
+            ClassFinderOptions options = parser.parse(args);
 
-			if (options.isHelpRequest() || options.doPrintHelp())
-				out.println(parser.getHelpMessage());
+            if (options.isHelpRequest() || options.doPrintHelp())
+                out.println(parser.getHelpMessage());
 
-			if (options.isHelpRequest())
-				return;
+            if (options.isHelpRequest())
+                return;
 
-			List<String> rawLines = Files.readAllLines(options.getNameListFile().toPath());
-			ClassNameMatcher matcher = QueryParser.parse(options.getQuery());
+            List<String> rawLines = Files.readAllLines(options.getNameListFile().toPath());
+            ClassNameMatcher matcher = QueryParser.parse(options.getQuery());
 
-			rawLines.stream()
-					.map(String::trim)
-					.filter(s -> !s.isEmpty())
-					.distinct()
-					.map(ClassName::of)
-					.filter(matcher::matches)
-					.sorted(Comparator.comparing(ClassName::getSimpleName))
-					.forEach(out::println);
+            rawLines.stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .distinct()
+                .map(ClassName::of)
+                .filter(matcher::matches)
+                .sorted(Comparator.comparing(ClassName::getSimpleName))
+                .forEach(out::println);
 
-		} catch (ArgumentArrayParseException ex) {
-			exitWithError(StatusCode.INVALID_INPUT, ex.getMessage());
-		} catch (IOException ex) {
-			exitWithError(StatusCode.FILE_IO, ex);
-		} catch (Throwable t) {
-			exitWithError(StatusCode.UNEXPECTED, t);
-		}
-	}
+        } catch (ArgumentArrayParseException ex) {
+            exitWithError(StatusCode.INVALID_INPUT, ex.getMessage());
+        } catch (IOException ex) {
+            exitWithError(StatusCode.FILE_IO, ex);
+        } catch (Throwable t) {
+            exitWithError(StatusCode.UNEXPECTED, t);
+        }
+    }
 }

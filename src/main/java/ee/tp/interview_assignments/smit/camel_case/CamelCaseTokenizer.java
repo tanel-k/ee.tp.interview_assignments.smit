@@ -1,5 +1,7 @@
 package ee.tp.interview_assignments.smit.camel_case;
 
+import ee.tp.interview_assignments.smit.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -10,25 +12,31 @@ import java.util.Objects;
  * Token extractor for camel-case strings based on {@link CamelCaseIterator}.
  */
 public class CamelCaseTokenizer implements Iterable<String> {
-	private static List<String> extractTokens(String str) {
-		List<String> tokens = new ArrayList<>();
-		new CamelCaseIterator(Objects.requireNonNull(str))
-			.forEachRemaining(tokens::add);
-		return tokens;
-	}
+    private static List<String> extractTokens(String str) {
+        List<String> tokens = new ArrayList<>();
+        if (!str.isEmpty()) {
+            new CamelCaseIterator(str).forEachRemaining(tokens::add);
+        }
 
-	private final List<String> immutableTokenList;
+        return tokens;
+    }
 
-	public CamelCaseTokenizer(String string) {
-		this.immutableTokenList = Collections.unmodifiableList(extractTokens(string));
-	}
+    private final String str;
+    private List<String> cachedTokenList;
 
-	public List<String> getTokenList() {
-		return immutableTokenList;
-	}
+    public CamelCaseTokenizer(String str) {
+        Objects.requireNonNull(str);
+        this.str = StringUtils.removeAllWhitespace(str);
+    }
 
-	@Override
-	public Iterator<String> iterator() {
-		return this.immutableTokenList.iterator();
-	}
+    public List<String> getTokenList() {
+        if (cachedTokenList == null)
+            cachedTokenList = Collections.unmodifiableList(extractTokens(this.str));
+        return cachedTokenList;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return getTokenList().iterator();
+    }
 }

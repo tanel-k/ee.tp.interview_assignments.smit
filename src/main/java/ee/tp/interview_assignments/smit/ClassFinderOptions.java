@@ -12,40 +12,40 @@ import java.io.File;
  * Class finder CLI option contract specification.
  */
 public class ClassFinderOptions extends OptionsBean {
-	@Option(
-		name = "-h",
-		aliases = "--help",
-		description = "Prints usage instructions.",
-		helpOption = true
-	)
-	private boolean printHelp;
+    @Option(
+        name = "-h",
+        aliases = "--help",
+        description = "Prints usage instructions.",
+        helpOption = true
+    )
+    private boolean printHelp;
 
-	@Option(
-		name = "-q",
-		aliases = "--query",
-		description = "Class name query.",
-		validator = NonEmptyStringValidator.class
-	)
-	private String query;
+    @Option(
+        name = "-q",
+        aliases = "--query",
+        description = "Class name query.",
+        validator = NonEmptyStringValidator.class
+    )
+    private String query;
 
-	@Option(
-		name = "-f",
-		aliases = "--file",
-		description = "Path to file which contains class names.",
-		parser = FileOptionParser.class,
-		validator = FileValidator.class
-	)
-	private File nameListFile;
+    @Option(
+        name = "-f",
+        aliases = "--file",
+        description = "Path to file which contains class names.",
+        parser = FileOptionParser.class,
+        validator = FileValidator.class
+    )
+    private File nameListFile;
 
-	public boolean doPrintHelp() {
-		return printHelp;
-	}
+    public boolean doPrintHelp() {
+        return printHelp;
+    }
 
-	public String getQuery() {
-		return query;
-	}
+    public String getQuery() {
+        return query;
+    }
 
-	public File getNameListFile() {
-		return nameListFile;
-	}
+    public File getNameListFile() {
+        return nameListFile;
+    }
 }

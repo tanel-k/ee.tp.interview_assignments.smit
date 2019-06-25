@@ -7,5 +7,5 @@ package ee.tp.interview_assignments.smit.cli.validation;
  * @see ee.tp.interview_assignments.smit.cli.Option
  */
 public interface OptionValidator<T> {
-	void validate(T optionValue) throws InvalidOptionException;
+    void validate(T optionValue) throws InvalidOptionException;
 }
