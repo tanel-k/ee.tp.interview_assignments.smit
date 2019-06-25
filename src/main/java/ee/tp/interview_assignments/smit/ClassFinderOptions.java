@@ -31,7 +31,7 @@ public class ClassFinderOptions extends OptionsBean {
     @Option(
         name = "-f",
         aliases = "--file",
-        description = "Path to file which contains class names.",
+        description = "Path to file that contains a list of class names.",
         parser = FileOptionParser.class,
         validator = FileValidator.class
     )
