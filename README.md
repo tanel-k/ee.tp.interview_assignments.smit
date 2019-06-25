@@ -1,1 +1,2 @@
-# ee.tp.interview_assignments.smit
+# Class finder
+TODO: add notes to simply review.
