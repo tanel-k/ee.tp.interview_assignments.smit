@@ -28,9 +28,7 @@ public class QueryParser {
         queryString = StringUtils.removeAllWhitespace(queryString);
         if (hasUppercaseLetters) {
             return new PrefixMatcher(
-                hasExactMatchModifier
-                    ? queryString.substring(0, queryString.length() - 1)
-                    : queryString,
+                queryString,
                 hasExactMatchModifier
             );
         }
