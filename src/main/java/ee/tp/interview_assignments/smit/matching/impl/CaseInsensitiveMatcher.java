@@ -15,7 +15,7 @@ public class CaseInsensitiveMatcher implements ClassNameMatcher {
     private final String queryStr;
 
     public CaseInsensitiveMatcher(String queryStr) {
-        this.queryStr = Objects.requireNonNull(queryStr);
+        this.queryStr = Objects.requireNonNull(queryStr).toLowerCase();
     }
 
     @Override
