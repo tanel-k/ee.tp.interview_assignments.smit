@@ -24,6 +24,9 @@ public class CaseInsensitiveMatcherTests {
 
         className = ClassName.of("BxxAxxCxx");
         assertEquals(matcher.matches(className), Boolean.FALSE, "Respects character order specified in query.");
+
+        className = ClassName.of("AxxBxxCxx");
+        assertEquals(matcher.matches(className), Boolean.TRUE, "Respects character order specified in query.");
     }
 
     @Test
