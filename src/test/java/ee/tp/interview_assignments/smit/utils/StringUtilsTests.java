@@ -2,6 +2,8 @@ package ee.tp.interview_assignments.smit.utils;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Unit tests for {@link StringUtils}.
  */
@@ -12,32 +14,54 @@ public class StringUtilsTests {
     }
 
     @Test
-    public void testIsEmpty() {
-        throw new UnsupportedOperationException("TODO");
-    }
-
-    @Test
     public void testContainsUppercaseLetters() {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Test
+    public void testIsEmpty() {
+        assertEquals(StringUtils.isEmpty("abc"), Boolean.FALSE, "Handles non-empty string.");
+        assertEquals(StringUtils.isEmpty(" "), Boolean.FALSE, "Handles whitespace string.");
+        assertEquals(StringUtils.isEmpty(""), Boolean.TRUE, "Handles empty string.");
+        assertEquals(StringUtils.isEmpty(null), Boolean.TRUE, "Handles null string.");
+    }
+
+    @Test
     public void testDefaultString() {
-        throw new UnsupportedOperationException("TODO");
+        assertEquals(StringUtils.defaultString("test", "abc"), "test", "Does not default non-empty strings.");
+        assertEquals(StringUtils.defaultString("", null), null, "Can default to null.");
+        assertEquals(StringUtils.defaultString("", ""), "", "Can default to to empty string.");
+        assertEquals(StringUtils.defaultString(null, "test"), "test", "Handles null.");
     }
 
     @Test
     public void testRepeat() {
-        throw new UnsupportedOperationException("TODO");
+        assertEquals(StringUtils.repeat("a", 4), "aaaa", "Repeats single character.");
+        assertEquals(StringUtils.repeat("str", 3), "strstrstr", "Repeats character sequence.");
+        assertEquals(StringUtils.repeat("", 100), "", "Handles empty string.");
+        assertEquals(StringUtils.repeat(null, 5), null, "Handles null.");
     }
 
     @Test
     public void testCapitalize() {
-        throw new UnsupportedOperationException("TODO");
+        assertEquals(StringUtils.capitalize("Test"), "Test", "Handles capitalized strings.");
+        assertEquals(StringUtils.capitalize("test"), "Test", "Handles uncapitalized strings.");
+        assertEquals(StringUtils.capitalize(""), "", "Handles empty string.");
+        assertEquals(StringUtils.capitalize(null), null, "Handles null.");
     }
 
     @Test
     public void testTrimToEmpty() {
-        throw new UnsupportedOperationException("TODO");
+        assertEquals(StringUtils.trimToEmpty(" a"), "a", "Trims odd left padding.");
+        assertEquals(StringUtils.trimToEmpty("  a"), "a", "Trims even left padding.");
+        assertEquals(StringUtils.trimToEmpty("a "), "a", "Trims odd right padding.");
+        assertEquals(StringUtils.trimToEmpty("a  "), "a", "Trims even right padding.");
+        assertEquals(StringUtils.trimToEmpty(" a  "), "a", "Trims asymmetrical padding.");
+        assertEquals(StringUtils.trimToEmpty("  a "), "a", "Trims asymmetrical padding.");
+        assertEquals(StringUtils.trimToEmpty("  abc  "), "abc", "Retains odd length string.");
+        assertEquals(StringUtils.trimToEmpty("  test  "), "test", "Retains even length string.");
+        assertEquals(StringUtils.trimToEmpty("\n\t "), "", "Trims whitespace to empty.");
+        assertEquals(StringUtils.trimToEmpty(""), "", "Handles empty string.");
+        assertEquals(StringUtils.trimToEmpty(null), "", "Trims null to empty.");
     }
 }
