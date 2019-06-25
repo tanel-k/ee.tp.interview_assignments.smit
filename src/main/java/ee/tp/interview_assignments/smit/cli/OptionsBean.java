@@ -8,6 +8,9 @@ package ee.tp.interview_assignments.smit.cli;
 public abstract class OptionsBean {
     private boolean helpRequest;
 
+    /**
+     * @return true, if the user only wishes to see a help message
+     */
     public boolean isHelpRequest() {
         return helpRequest;
     }
