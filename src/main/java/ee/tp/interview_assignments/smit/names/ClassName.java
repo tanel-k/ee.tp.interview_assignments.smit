@@ -23,7 +23,7 @@ public class ClassName implements Comparable<ClassName> {
         if ((nameString = StringUtils.trimToEmpty(nameString)).isEmpty())
             throw new IllegalArgumentException("Class name cannot be empty.");
 
-        this.nameString = nameString;
+        this.nameString = StringUtils.removeAllWhitespace(nameString);
     }
 
     /**

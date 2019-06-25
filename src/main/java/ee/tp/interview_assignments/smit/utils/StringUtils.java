@@ -115,4 +115,18 @@ public class StringUtils {
             ? str.substring(start, end)
             : EMPTY_STRING;
     }
+
+    /**
+     * @return version of input string with whitespace eliminated
+     */
+    public static String removeAllWhitespace(String str) {
+        if (isEmpty(str))
+            return str;
+
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < str.length(); i++)
+            if (!Character.isWhitespace(str.charAt(i)))
+                buf.append(str.charAt(i));
+        return buf.toString();
+    }
 }

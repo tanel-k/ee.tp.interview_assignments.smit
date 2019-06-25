@@ -1,5 +1,7 @@
 package ee.tp.interview_assignments.smit.camel_case;
 
+import ee.tp.interview_assignments.smit.utils.StringUtils;
+
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -12,10 +14,14 @@ public class CamelCaseIterator implements Iterator<String> {
     private final int length;
     private final String string;
 
-    public CamelCaseIterator(String string) {
+    public CamelCaseIterator(String str) {
+        Objects.requireNonNull(str);
+        // Slightly ineffective, but we need this to ensure hasNext() returns correct values.
+        str = StringUtils.removeAllWhitespace(str);
+
         this.index = 0;
-        this.string = Objects.requireNonNull(string);
-        this.length = string.length();
+        this.string = str;
+        this.length = str.length();
     }
 
     @Override

@@ -87,4 +87,12 @@ public class StringUtilsTests {
         assertEquals(StringUtils.trimToEmpty(""), "", "Handles empty string.");
         assertEquals(StringUtils.trimToEmpty(null), "", "Trims null to empty.");
     }
+
+    public void testRemoveAllWhitespace() {
+        assertEquals(StringUtils.removeAllWhitespace(" \n "), "", "Trims to empty.");
+        assertEquals(StringUtils.removeAllWhitespace("abc  def"), "abcdef", "Trims nested whitespace.");
+        assertEquals(StringUtils.removeAllWhitespace(" abc "), "abc", "Trims surrounding whitespace.");
+        assertEquals(StringUtils.removeAllWhitespace(""), "", "Handles empty string.");
+        assertEquals(StringUtils.removeAllWhitespace(null), null, "Handles null.");
+    }
 }

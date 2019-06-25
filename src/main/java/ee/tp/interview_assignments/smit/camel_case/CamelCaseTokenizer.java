@@ -1,5 +1,7 @@
 package ee.tp.interview_assignments.smit.camel_case;
 
+import ee.tp.interview_assignments.smit.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,16 +13,21 @@ import java.util.Objects;
  */
 public class CamelCaseTokenizer implements Iterable<String> {
     private static List<String> extractTokens(String str) {
+        str = StringUtils.removeAllWhitespace(str);
+
         List<String> tokens = new ArrayList<>();
-        new CamelCaseIterator(Objects.requireNonNull(str))
-            .forEachRemaining(tokens::add);
+        if (!str.isEmpty()) {
+            new CamelCaseIterator(str).forEachRemaining(tokens::add);
+        }
+
         return tokens;
     }
 
     private final List<String> immutableTokenList;
 
-    public CamelCaseTokenizer(String string) {
-        this.immutableTokenList = Collections.unmodifiableList(extractTokens(string));
+    public CamelCaseTokenizer(String str) {
+        Objects.requireNonNull(str);
+        this.immutableTokenList = Collections.unmodifiableList(extractTokens(str));
     }
 
     public List<String> getTokenList() {

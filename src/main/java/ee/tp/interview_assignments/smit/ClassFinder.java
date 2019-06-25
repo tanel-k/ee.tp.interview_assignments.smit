@@ -76,6 +76,7 @@ public class ClassFinder {
             rawLines.stream()
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
+                .map(StringUtils::removeAllWhitespace)
                 .distinct()
                 .map(ClassName::of)
                 .filter(matcher::matches)
